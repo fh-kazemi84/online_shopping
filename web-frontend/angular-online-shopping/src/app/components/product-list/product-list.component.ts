@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../common/product';
+import {Component} from '@angular/core';
+import {ProductService} from '../../services/product.service';
+import {Product} from '../../common/product';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -8,18 +9,35 @@ import { Product } from '../../common/product';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-
   products: Product[];
+  currentCategoryId: number;
 
-  constructor(private productService: ProductService) {
-  }
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.listProduct();
+    this.route.paramMap.subscribe(() => {
+      this.listProducts();
+    });
   }
 
-  listProduct() {
-    this.productService.getProductList().subscribe(
+  listProducts() {
+
+    // check if "id" parameter is available
+    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+
+    if (hasCategoryId) {
+      // get the "id" param string. convert string to a number using the "+" symbol
+      const param=this.route.snapshot.paramMap.get('id');
+      this.currentCategoryId = param?+param:0;
+    }
+    else {
+      // not category id available ... default to category id 1
+      this.currentCategoryId = 1;
+    }
+
+    // now get the products for the given category id
+    this.productService.getProductList(this.currentCategoryId).subscribe(
       data => {
         this.products = data;
       }
