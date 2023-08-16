@@ -666,8 +666,9 @@ label.date{
   -o-transform:rotate(45deg);
   transform:rotate(45deg)
 }
-option:first{
-  color:#ccc
+@page :first {
+  margin-left: 50%;
+  margin-top: 50%;
 }
 select{
   color:#828482
@@ -722,6 +723,10 @@ table.table.table-bordered th{
 .detail-section{
   margin-top:60px
 }
+.detail-img{
+  width: 30%;
+}
+
 /**/
 
 /*
@@ -974,7 +979,7 @@ footer ul li{
     text-align:center
   }
   .product-box{
-    text-align:centerg
+    text-align:center
   }
   .page-container{
     position:relative;
