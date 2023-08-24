@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import {ShopFormService} from "../../services/shop-form.service";
-import {Country} from "../../common/country";
-import {State} from "../../common/state";
+import {ShopFormService} from '../../services/shop-form.service';
+import {Country} from '../../common/country';
+import {State} from '../../common/state';
 
 @Component({
   selector: 'app-checkout',
