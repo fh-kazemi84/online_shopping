@@ -1,7 +1,9 @@
 package com.kazemi.online_shopping.config;
 
+import com.kazemi.online_shopping.entity.Country;
 import com.kazemi.online_shopping.entity.Product;
 import com.kazemi.online_shopping.entity.ProductCategory;
+import com.kazemi.online_shopping.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.support.Repositories;
@@ -30,19 +32,24 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
         //REST API as READ-ONLY
-        //disable Http method for Products: PUT, POST, DELETE
-        config.getExposureConfiguration()
-                .forDomainType(Product.class)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+        //disable Http method: PUT, POST, DELETE
+        disableHttpMethods(Product.class, config, theUnsupportedActions);
+        disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
+        disableHttpMethods(Country.class, config, theUnsupportedActions);
+        disableHttpMethods(State.class, config, theUnsupportedActions);
 
-        //disable Http method for ProductCategory: PUT, POST, DELETE
+    }
+
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
         config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class)
+                .forDomainType(theClass)
                 .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
                 .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
     }
+
 }
+
+
 
 /*@Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
