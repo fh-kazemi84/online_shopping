@@ -12,7 +12,6 @@ import java.util.List;
  * @author fh.kazemi
  **/
 
-@CrossOrigin("http://localhost:4200")
 @RepositoryRestResource
 public interface StateRepository extends JpaRepository<State, Integer> {
 
