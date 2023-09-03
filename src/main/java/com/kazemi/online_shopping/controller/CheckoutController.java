@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
  * @author fh.kazemi
  **/
 
-@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/checkout")
 public class CheckoutController {
