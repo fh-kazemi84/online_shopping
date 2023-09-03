@@ -1,9 +1,6 @@
 package com.kazemi.online_shopping.config;
 
-import com.kazemi.online_shopping.entity.Country;
-import com.kazemi.online_shopping.entity.Product;
-import com.kazemi.online_shopping.entity.ProductCategory;
-import com.kazemi.online_shopping.entity.State;
+import com.kazemi.online_shopping.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +34,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
         disableHttpMethods(Country.class, config, theUnsupportedActions);
         disableHttpMethods(State.class, config, theUnsupportedActions);
+        disableHttpMethods(Order.class, config, theUnsupportedActions);
 
         this.repositories.iterator().forEachRemaining(r -> {
             config.exposeIdsFor(r);
