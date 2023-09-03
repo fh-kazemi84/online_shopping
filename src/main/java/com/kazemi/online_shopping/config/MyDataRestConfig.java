@@ -5,6 +5,7 @@ import com.kazemi.online_shopping.entity.Product;
 import com.kazemi.online_shopping.entity.ProductCategory;
 import com.kazemi.online_shopping.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -18,18 +19,17 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
+    @Value("${allowed.origins}")
+    private String[] theAllowedOrigins;
+
     @Autowired
     private Repositories repositories;
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-        this.repositories.iterator().forEachRemaining(r -> {
-            config.exposeIdsFor(r);
-        });
-    }
 
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
+        HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST,
+                                                HttpMethod.DELETE, HttpMethod.PATCH};
 
         //REST API as READ-ONLY
         //disable Http method: PUT, POST, DELETE
@@ -38,6 +38,11 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Country.class, config, theUnsupportedActions);
         disableHttpMethods(State.class, config, theUnsupportedActions);
 
+        this.repositories.iterator().forEachRemaining(r -> {
+            config.exposeIdsFor(r);
+        });
+        // configure cors mapping
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 
     private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
